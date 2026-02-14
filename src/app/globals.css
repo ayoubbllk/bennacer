@@ -1,26 +1,169 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ═══════════════════════════════════════════════════════════════
+   🎭 MOUAADH BENNACER - STAND-UP COMEDY ARTIST
+   Global Styles & CSS Variables
+   ═══════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* Scene Colors */
+  --color-scene-black: #0a0a0a;
+  --color-scene-anthracite: #1a1a1a;
+  --color-scene-charcoal: #2d2d2d;
+  --color-scene-gray: #3d3d3d;
+  
+  /* Cream Tones */
+  --color-cream: #f5f5f0;
+  --color-cream-soft: #e8e8e3;
+  --color-cream-warm: #faf8f5;
+  
+  /* Spotlight Accent Colors */
+  --color-spotlight-orange: #ff6b35;
+  --color-spotlight-amber: #ffaa00;
+  --color-spotlight-gold: #ffd700;
+  --color-spotlight-warm: #ff8c42;
+  
+  /* Stage Elements */
+  --color-stage-red: #8b0000;
+  --color-stage-curtain: #4a0404;
+  --color-stage-wood: #3d2914;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ═══════════════════════════════════════════════════════════════
+   🌟 Base Styles
+   ═══════════════════════════════════════════════════════════════ */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-scene-black);
+  color: var(--color-cream);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Grain Texture Overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ✨ Selection Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+::selection {
+  background-color: var(--color-spotlight-orange);
+  color: var(--color-scene-black);
+}
+
+::-moz-selection {
+  background-color: var(--color-spotlight-orange);
+  color: var(--color-scene-black);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎯 Scrollbar Styling
+   ═══════════════════════════════════════════════════════════════ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-scene-anthracite);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-spotlight-orange);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-spotlight-amber);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎭 Utility Classes
+   ═══════════════════════════════════════════════════════════════ */
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-spotlight-orange) 0%, var(--color-spotlight-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-spotlight {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 107, 53, 0.25) 0%, transparent 70%);
+}
+
+.glow-text {
+  text-shadow: 0 0 40px rgba(255, 107, 53, 0.5),
+               0 0 80px rgba(255, 107, 53, 0.3),
+               0 0 120px rgba(255, 107, 53, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📱 Focus States for Accessibility
+   ═══════════════════════════════════════════════════════════════ */
+
+*:focus-visible {
+  outline: 2px solid var(--color-spotlight-orange);
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎬 Page Transition Base
+   ═══════════════════════════════════════════════════════════════ */
+
+.page-transition {
+  animation: pageEnter 0.6s ease-out;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🌟 Spotlight Effect Background
+   ═══════════════════════════════════════════════════════════════ */
+
+.spotlight-bg {
+  position: relative;
+}
+
+.spotlight-bg::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 200%;
+  background: radial-gradient(ellipse 40% 30% at 50% 20%, 
+    rgba(255, 107, 53, 0.15) 0%, 
+    transparent 50%);
+  pointer-events: none;
+  z-index: 0;
 }
