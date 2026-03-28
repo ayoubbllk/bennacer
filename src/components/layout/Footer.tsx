@@ -8,6 +8,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const footerLinks = [
   { href: '/', label: 'Accueil' },
@@ -24,6 +25,11 @@ const socials = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // Don't render Footer on admin pages
+  if (pathname.startsWith('/admin')) return null;
+
   return (
     <footer className="bg-black border-t border-cream/10">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">

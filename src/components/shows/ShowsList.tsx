@@ -8,104 +8,12 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-
-interface Show {
-  id: string;
-  date: string;
-  month: string;
-  year: string;
-  venue: string;
-  city: string;
-  country: string;
-  image: string;
-  status: 'available' | 'few-left' | 'sold-out';
-  ticketUrl: string;
-}
-
-const shows: Show[] = [
-  {
-    id: '1',
-    date: '15',
-    month: 'Mars',
-    year: '2025',
-    venue: 'Théâtre du Rond-Point',
-    city: 'Paris',
-    country: 'France',
-    image: 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?q=80&w=800',
-    status: 'available',
-    ticketUrl: '#',
-  },
-  {
-    id: '2',
-    date: '22',
-    month: 'Mars',
-    year: '2025',
-    venue: 'Le Comedy Club',
-    city: 'Lyon',
-    country: 'France',
-    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=800',
-    status: 'few-left',
-    ticketUrl: '#',
-  },
-  {
-    id: '3',
-    date: '05',
-    month: 'Avril',
-    year: '2025',
-    venue: 'Zénith Sud',
-    city: 'Montpellier',
-    country: 'France',
-    image: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=800',
-    status: 'available',
-    ticketUrl: '#',
-  },
-  {
-    id: '4',
-    date: '18',
-    month: 'Avril',
-    year: '2025',
-    venue: 'Le Krakatoa',
-    city: 'Bordeaux',
-    country: 'France',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=800',
-    status: 'sold-out',
-    ticketUrl: '#',
-  },
-  {
-    id: '5',
-    date: '25',
-    month: 'Avril',
-    year: '2025',
-    venue: 'L\'Olympia',
-    city: 'Paris',
-    country: 'France',
-    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800',
-    status: 'few-left',
-    ticketUrl: '#',
-  },
-  {
-    id: '6',
-    date: '10',
-    month: 'Mai',
-    year: '2025',
-    venue: 'Théâtre Sébastopol',
-    city: 'Lille',
-    country: 'France',
-    image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=800',
-    status: 'available',
-    ticketUrl: '#',
-  },
-];
-
-const statusConfig = {
-  'available': { label: 'Disponible', color: 'bg-green-500', textColor: 'text-green-400' },
-  'few-left': { label: 'Dernières places', color: 'bg-orange-500', textColor: 'text-orange-400' },
-  'sold-out': { label: 'Complet', color: 'bg-red-500', textColor: 'text-red-400' },
-};
+import Link from 'next/link';
+import { Show, statusConfig } from '@/lib/shows-types';
 
 type FilterType = 'all' | 'available' | 'sold-out';
 
-export function ShowsList() {
+export function ShowsList({ shows }: { shows: Show[] }) {
   const [filter, setFilter] = useState<FilterType>('all');
 
   const filteredShows = shows.filter(show => {
@@ -186,47 +94,51 @@ function ShowCard({ show, index }: { show: Show; index: number }) {
       viewport={{ once: true }}
       className="group relative rounded-2xl overflow-hidden bg-cream/5 hover:bg-cream/10 transition-colors"
     >
-      {/* Image */}
-      <div className="relative h-48 overflow-hidden">
-        <motion.div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${show.image}')` }}
-          whileHover={{ scale: 1.1 }}
-          transition={{ duration: 0.6 }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-        
-        {/* Status badge */}
-        <div className="absolute top-4 right-4">
-          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${status.color}/20 backdrop-blur-sm`}>
-            <span className={`w-2 h-2 rounded-full ${status.color}`} />
-            <span className="text-cream text-xs font-medium">{status.label}</span>
+      <Link href={`/shows/${show.id}`} className="block">
+        {/* Image */}
+        <div className="relative h-48 overflow-hidden">
+          <motion.div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url('${show.image}')` }}
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.6 }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
+          
+          {/* Status badge */}
+          <div className="absolute top-4 right-4">
+            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${status.color}/20 backdrop-blur-sm`}>
+              <span className={`w-2 h-2 rounded-full ${status.color}`} />
+              <span className="text-cream text-xs font-medium">{status.label}</span>
+            </div>
+          </div>
+
+          {/* Date overlay */}
+          <div className="absolute bottom-4 left-4">
+            <div className="text-4xl font-bold text-cream leading-none">{show.date}</div>
+            <div className="text-orange-500 text-sm uppercase tracking-wider">{show.month}</div>
           </div>
         </div>
 
-        {/* Date overlay */}
-        <div className="absolute bottom-4 left-4">
-          <div className="text-4xl font-bold text-cream leading-none">{show.date}</div>
-          <div className="text-orange-500 text-sm uppercase tracking-wider">{show.month}</div>
+        {/* Content */}
+        <div className="p-6">
+          {/* Venue */}
+          <h3 className="text-xl font-bold text-cream mb-2 group-hover:text-orange-500 transition-colors">
+            {show.venue}
+          </h3>
+
+          {/* Location */}
+          <p className="text-cream/60 flex items-center gap-2 mb-6">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            </svg>
+            {show.city}, {show.country}
+          </p>
         </div>
-      </div>
+      </Link>
 
-      {/* Content */}
-      <div className="p-6">
-        {/* Venue */}
-        <h3 className="text-xl font-bold text-cream mb-2 group-hover:text-orange-500 transition-colors">
-          {show.venue}
-        </h3>
-
-        {/* Location */}
-        <p className="text-cream/60 flex items-center gap-2 mb-6">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          </svg>
-          {show.city}, {show.country}
-        </p>
-
-        {/* CTA */}
+      {/* CTA - outside the link to avoid nested interactive elements */}
+      <div className="px-6 pb-6">
         {isAvailable ? (
           <motion.a
             href={show.ticketUrl}

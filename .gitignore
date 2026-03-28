@@ -38,4 +38,11 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# database
+/data/
+
+# uploads (keep directory, ignore contents)
+/public/uploads/shows/*
+!/public/uploads/shows/.gitkeep
 next-env.d.ts

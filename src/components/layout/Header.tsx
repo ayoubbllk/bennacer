@@ -44,6 +44,9 @@ export function Header() {
     setIsMenuOpen(false);
   }, [pathname]);
 
+  // Don't render Header on admin pages
+  if (pathname.startsWith('/admin')) return null;
+
   return (
     <>
       <motion.header

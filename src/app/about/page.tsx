@@ -7,7 +7,10 @@
 import { Metadata } from 'next';
 import { AboutHero } from '@/components/about/AboutHero';
 import { Timeline } from '@/components/about/Timeline';
+import { Philosophy } from '@/components/about/Philosophy';
 import { Values } from '@/components/about/Values';
+import { Gallery } from '@/components/about/Gallery';
+import { Riders } from '@/components/about/Riders';
 import { Press } from '@/components/about/Press';
 
 export const metadata: Metadata = {
@@ -20,7 +23,10 @@ export default function AboutPage() {
     <main className="min-h-screen">
       <AboutHero />
       <Timeline />
+      <Philosophy />
       <Values />
+      <Gallery />
+      <Riders />
       <Press />
     </main>
   );
